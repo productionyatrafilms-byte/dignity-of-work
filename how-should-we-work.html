@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/swiper.css" />
+
+    <style>
+      body {
+        width: 100vw !important;
+        height: 100%;
+        margin: 0;
+        overflow-x: hidden;
+        background-color: white;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100%;
+        background-image: url("./assets/images/bg-img4.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        transform: scale(0);
+        transform-origin: center center;
+        transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: -1;
+      }
+
+      body.bg-loaded::before {
+        transform: scale(1);
+      }
+
+      body > * {
+        opacity: 0;
+        transition: opacity 0.65s ease;
+      }
+
+      body.content-loaded > * {
+        opacity: 1;
+      }
+
+      .page-title {
+        width: 30vw;
+        height: 7vw;
+        padding-top: 0 !important;
+        padding: 0 0.5vw;
+      }
+
+      .page-title span {
+        font-size: 2.5vw;
+      }
+
+      /* ================= CENTER SWIPER SECTION ================= */
+
+      .main-swiper-section {
+        position: fixed;
+        left: 50%;
+        top: 55%;
+        transform: translate(-50%, calc(-50% + 8vw));
+        width: 100vw;
+        height: 34vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        pointer-events: none;
+        opacity: 0;
+        transition:
+          opacity 0.75s ease,
+          transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      body.content-loaded .main-swiper-section {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+
+      .media-box {
+        position: relative;
+        width: 44vw;
+        height: 25vw;
+        border: 0.4vw solid #ffffff;
+        border-radius: 2vw;
+        background: #ffffff;
+        overflow: hidden;
+        box-shadow: 0 0.4vw 1vw rgba(0, 0, 0, 0.18);
+        pointer-events: auto;
+      }
+
+      .videoSwiper,
+      .videoSwiper .swiper-wrapper,
+      .videoSwiper .swiper-slide {
+        width: 100%;
+        height: 100%;
+      }
+
+      .videoSwiper .swiper-slide {
+        overflow: hidden;
+      }
+
+      .videoSwiper video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ================= TEXT SWIPER ================= */
+
+      .text-area {
+        position: relative;
+        margin-top: 3vw;
+        width: 100vw;
+        min-height: 7vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: auto;
+
+        --text-box-width: 42vw;
+      }
+
+      /* Permanent background box - it will not fade with Swiper */
+      .text-area::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: var(--text-box-width);
+        height: 7vw;
+        transform: translate(-50%, -50%);
+        border: 0.3vw solid #ffffff;
+        border-radius: 10vw;
+        background: rgba(255, 255, 255, 0.297);
+        backdrop-filter: blur(2vw);
+        -webkit-backdrop-filter: blur(2vw);
+        box-shadow: 0 0.3vw 0.6vw rgba(0, 0, 0, 0.18);
+        z-index: 1;
+        transition: width 0.35s ease;
+        pointer-events: none;
+      }
+
+      .textSwiper {
+        position: relative;
+        z-index: 2;
+        width: 100vw;
+        height: 7vw;
+        overflow: visible;
+      }
+
+      .textSwiper .swiper-wrapper,
+      .textSwiper .swiper-slide {
+        height: 100%;
+      }
+
+      .textSwiper .swiper-slide {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .textSwiper .slide-text-container {
+        position: relative;
+        z-index: 3;
+        width: var(--text-box-width);
+        min-width: 42vw;
+        max-width: 60vw;
+        height: 7vw;
+        padding: 0 2.2vw;
+
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+
+      .textSwiper .slide-text-container::before {
+        display: none !important;
+      }
+
+      .textSwiper .slide-text-container p {
+        margin: 0;
+        position: relative;
+        z-index: 4;
+        color: #ffffff;
+        font-size: 2vw;
+        line-height: 1.1;
+        font-weight: 700;
+        text-align: center;
+        text-shadow: 0.12vw 0.16vw 0.15vw rgba(0, 0, 0, 0.35);
+        white-space: normal;
+        font-family: "MomoTrustDisplay";
+      }
+
+      /* ================= NAVIGATION BUTTONS ================= */
+
+      .swiper-nav-btn {
+        position: fixed;
+        top: 49%;
+        transform: translateY(-50%);
+        width: 4.8vw;
+        height: 4.8vw;
+        border: none;
+        outline: none;
+        background: transparent;
+        cursor: pointer;
+        z-index: 80;
+        padding: 0;
+        transition:
+          opacity 0.45s ease,
+          visibility 0.45s ease;
+      }
+
+      .swiper-nav-btn img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+
+      .swiper-nav-btn .hover-img {
+        opacity: 0;
+      }
+
+      .swiper-nav-btn:hover .normal-img {
+        opacity: 0;
+      }
+
+      .swiper-nav-btn:hover .hover-img {
+        opacity: 1;
+      }
+
+      .swiper-prev-btn {
+        left: 17vw;
+      }
+
+      .swiper-next-btn {
+        right: 17vw;
+      }
+
+      .swiper-nav-btn.is-hidden {
+        opacity: 0 !important;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .pages .page.is-open,
+      .pages .page.is-open:hover {
+        transform: translateX(1vw);
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="home-btn" href="index.html">
+      <img src="./assets/images/home-btn.png" alt="" />
+    </a>
+
+    <div class="page-title">
+      <span data-lang-key="title-4"></span>
+    </div>
+
+    <div class="pages">
+      <div class="page page-1">
+        <a href="what.html" data-lang-key="num.1"></a>
+        <div data-lang-key="title-1"></div>
+      </div>
+
+      <div class="page page-2">
+        <a href="whose.html" data-lang-key="num.2"></a>
+        <div data-lang-key="title-2"></div>
+      </div>
+
+      <div class="page page-3">
+        <a href="how-should-we-respect.html" data-lang-key="num.3"></a>
+        <div data-lang-key="title-3"></div>
+      </div>
+
+      <div class="page page-4">
+        <a href="how-should-we-work.html" data-lang-key="num.4"></a>
+        <div data-lang-key="title-4"></div>
+      </div>
+    </div>
+
+    <!-- Center Swiper -->
+    <main class="main-swiper-section">
+      <div class="media-box">
+        <div class="swiper videoSwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-1.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-2.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-3.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-4.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-5.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-6.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-7.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-8.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-9.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-10.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-11.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-12.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+
+            <div class="swiper-slide">
+              <video
+                src="./assets/videos/4-13.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+              ></video>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-area">
+        <div class="swiper textSwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.1"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.2"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.3"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.4"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.5"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.6"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.7"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.8"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.9"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.10"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.11"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.12"></p>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="slide-text-container">
+                <p data-lang-key="slide-4.13"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Swiper Navigation Buttons -->
+    <button class="swiper-nav-btn swiper-prev-btn is-hidden" type="button">
+      <img
+        class="normal-img"
+        src="./assets/images/prev-btn.png"
+        alt="Previous"
+      />
+      <img
+        class="hover-img"
+        src="./assets/images/prev-btn-hover.png"
+        alt="Previous Hover"
+      />
+    </button>
+
+    <button class="swiper-nav-btn swiper-next-btn" type="button">
+      <img class="normal-img" src="./assets/images/next-btn.png" alt="Next" />
+      <img
+        class="hover-img"
+        src="./assets/images/next-btn-hover.png"
+        alt="Next Hover"
+      />
+    </button>
+
+    <!-- nav-container -->
+    <div class="language-container">
+      <div class="english active">E</div>
+      <div class="hindi">H</div>
+      <div class="gujrati">G</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./assets/js/app.js"></script>
+
+    <script>
+      const prevBtn = document.querySelector(".swiper-prev-btn");
+      const nextBtn = document.querySelector(".swiper-next-btn");
+
+      const videoSwiper = new Swiper(".videoSwiper", {
+        slidesPerView: 1,
+        speed: 850,
+        effect: "slide",
+        allowTouchMove: true,
+        grabCursor: true,
+      });
+
+      const textSwiper = new Swiper(".textSwiper", {
+        slidesPerView: 1,
+        speed: 650,
+        effect: "fade",
+        fadeEffect: {
+          crossFade: true,
+        },
+        allowTouchMove: false,
+      });
+
+      videoSwiper.controller.control = textSwiper;
+      textSwiper.controller.control = videoSwiper;
+
+      function updateButtons() {
+        if (videoSwiper.isBeginning) {
+          prevBtn.classList.add("is-hidden");
+        } else {
+          prevBtn.classList.remove("is-hidden");
+        }
+
+        /* Keep next button visible even on last slide */
+        nextBtn.classList.remove("is-hidden");
+      }
+
+      function playActiveVideo() {
+        document
+          .querySelectorAll(".videoSwiper video")
+          .forEach((video, index) => {
+            if (index === videoSwiper.activeIndex) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+              video.currentTime = 0;
+            }
+          });
+      }
+
+      function updateTextWidth() {
+        const activeSlide = document.querySelector(
+          ".textSwiper .swiper-slide-active .slide-text-container",
+        );
+
+        if (!activeSlide) return;
+
+        const text = activeSlide.querySelector("p");
+        if (!text) return;
+
+        const textWidth = text.scrollWidth;
+        const minWidth = window.innerWidth * 0.42;
+        const maxWidth = window.innerWidth * 0.6;
+        const extraPadding = window.innerWidth * 0.07;
+
+        let finalWidth = textWidth + extraPadding;
+
+        if (finalWidth < minWidth) finalWidth = minWidth;
+        if (finalWidth > maxWidth) finalWidth = maxWidth;
+
+        const textArea = document.querySelector(".text-area");
+
+        if (textArea) {
+          textArea.style.setProperty("--text-box-width", finalWidth + "px");
+        }
+
+        document
+          .querySelectorAll(".textSwiper .slide-text-container")
+          .forEach((box) => {
+            box.style.width = finalWidth + "px";
+          });
+      }
+
+      nextBtn.addEventListener("click", () => {
+        if (videoSwiper.isEnd) {
+          window.location.href = "pranam.html";
+          return;
+        }
+
+        updateTextWidth();
+        videoSwiper.slideNext();
+      });
+
+      prevBtn.addEventListener("click", () => {
+        updateTextWidth();
+        videoSwiper.slidePrev();
+      });
+
+      videoSwiper.on("slideChangeTransitionStart", () => {
+        updateButtons();
+        playActiveVideo();
+        updateTextWidth();
+      });
+
+      videoSwiper.on("slideChangeTransitionEnd", () => {
+        updateButtons();
+        playActiveVideo();
+        updateTextWidth();
+      });
+
+      textSwiper.on("slideChangeTransitionStart", () => {
+        updateTextWidth();
+      });
+
+      textSwiper.on("slideChangeTransitionEnd", () => {
+        updateTextWidth();
+      });
+
+      window.addEventListener("load", () => {
+        updateButtons();
+        playActiveVideo();
+
+        document.body.classList.add("bg-loaded");
+
+        setTimeout(() => {
+          document.body.classList.add("content-loaded");
+
+          setTimeout(() => {
+            updateTextWidth();
+          }, 300);
+        }, 1100);
+      });
+
+      window.addEventListener("resize", () => {
+        updateTextWidth();
+      });
+
+      const langBtns = document.querySelectorAll(
+        ".english, .hindi, .gujrati, .gujarati",
+      );
+
+      langBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          setTimeout(() => {
+            updateTextWidth();
+          }, 250);
+        });
+      });
+
+      /* ================= PAGE TILE CLICK OPEN + SECOND CLICK NAVIGATE ================= */
+
+      const pageTiles = document.querySelectorAll(".pages .page");
+
+      pageTiles.forEach((page) => {
+        page.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          const link = page.querySelector("a");
+          if (!link) return;
+
+          if (page.classList.contains("is-open")) {
+            window.location.href = link.getAttribute("href");
+            return;
+          }
+
+          pageTiles.forEach((item) => {
+            item.classList.remove("is-open");
+          });
+
+          page.classList.add("is-open");
+        });
+      });
+    </script>
+  </body>
+</html>

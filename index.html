@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <style>
+      body {
+        width: 100vw !important;
+        height: 100%;
+        background-image: url("./assets/images/bg-img.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        overflow-x: hidden;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+      main {
+        position: absolute;
+        width: 75%;
+        height: 75%;
+        left: 50%;
+        top: 58%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1vw;
+      }
+
+      main .col {
+        position: relative;
+        height: 36vw;
+        width: 18%;
+        background-color: #ffffff;
+        border-radius: 1.5vw;
+        box-shadow: 0 0.4vw 0.4vw rgba(0, 0, 0, 0.738);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: visible;
+        transition:
+          width 0.45s ease,
+          background-color 0.45s ease,
+          transform 0.45s ease,
+          box-shadow 0.45s ease;
+      }
+
+      main .col:hover {
+        width: 30%;
+        box-shadow: 0 0.7vw 0.8vw rgba(0, 0, 0, 0.55);
+        z-index: 20;
+      }
+
+      main .col .num {
+        font-size: 2.5vw;
+        font-weight: 600;
+        color: #424242;
+        margin-top: 3vw;
+        font-family: "MomoTrustDisplay";
+        padding-top: 10vw;
+        transition: color 0.45s ease;
+      }
+
+      main .col:hover .num {
+        color: #ffffff;
+      }
+
+      main .col .content {
+        text-decoration: none;
+        width: 90%;
+        height: 6vw;
+        font-size: 1.2vw;
+        color: #424242;
+        font-family: "MomoTrustDisplay";
+        text-align: center;
+        padding: 0 1vw;
+        background-color: #ffe2a0;
+        border-radius: 7vw;
+        margin-top: 12vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        transition:
+          width 0.45s ease,
+          background-color 0.45s ease,
+          color 0.45s ease,
+          font-size 0.45s ease,
+          box-shadow 0.45s ease;
+      }
+
+      main .col:hover .content {
+        height: 5vw;
+        width: 70%;
+        color: #ffffff;
+        font-size: 1.35vw;
+        box-shadow: 0 0.35vw 0.6vw rgba(0, 0, 0, 0.35);
+      }
+
+      main .col-1:hover .content {
+        background-color: #829fcb;
+      }
+
+      main .col-2:hover .content {
+        background-color: #94a4f3;
+      }
+
+      main .col-3:hover .content {
+        background-color: #ff918f;
+      }
+
+      main .col-4:hover .content {
+        background-color: #f58ded;
+      }
+
+      .col img {
+        position: absolute;
+        display: block;
+        margin: 0 auto;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.45s ease,
+          transform 0.45s ease;
+      }
+
+      .col:hover img {
+        opacity: 1;
+      }
+
+      .col-1 img {
+        width: 50%;
+        bottom: 4vw;
+      }
+
+      .col-2 img {
+        width: 45%;
+        bottom: 4vw;
+      }
+
+      .col-3 img {
+        width: 70%;
+        bottom: 4vw;
+      }
+
+      .col-4 img {
+        width: 90%;
+        bottom: 4vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-title">
+      <span data-lang-key="title"></span>
+    </div>
+
+    <!-- nav-container -->
+    <div class="language-container">
+      <div class="english active">E</div>
+      <div class="hindi">H</div>
+      <div class="gujrati">G</div>
+    </div>
+
+    <main>
+      <div class="col col-1">
+        <img src="./assets/images/topic-1.png" alt="" />
+        <div class="num" data-lang-key="num-1"></div>
+        <a class="content" data-lang-key="title-1" href="what.html"></a>
+      </div>
+
+      <div class="col col-2">
+        <img src="./assets/images/topic-2.png" alt="" />
+        <div class="num" data-lang-key="num-2"></div>
+        <a class="content" data-lang-key="title-2" href="whose.html"></a>
+      </div>
+
+      <div class="col col-3">
+        <img src="./assets/images/topic-3.png" alt="" />
+        <div class="num" data-lang-key="num-3"></div>
+        <a
+          class="content"
+          data-lang-key="title-3"
+          href="how-should-we-respect.html"
+        ></a>
+      </div>
+
+      <div class="col col-4">
+        <img src="./assets/images/topic-4.png" alt="" />
+        <div class="num" data-lang-key="num-4"></div>
+        <a
+          class="content"
+          data-lang-key="title-4"
+          href="how-should-we-work.html"
+        ></a>
+      </div>
+    </main>
+
+    <script src="./assets/js/app.js"></script>
+  </body>
+</html>
