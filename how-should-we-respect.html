@@ -7,7 +7,7 @@
 
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      href="./assets/css/swiper-bundle.min.css"
     />
 
     <link rel="stylesheet" href="./assets/css/style.css" />
@@ -212,6 +212,14 @@
         text-shadow: 0.12vw 0.16vw 0.15vw rgba(0, 0, 0, 0.35);
         white-space: normal;
         font-family: "MomoTrustDisplay";
+      }
+
+      body[data-lang="hi"] .textSwiper .slide-text-container p {
+        font-family: "ITFDevanagari" !important;
+      }
+
+      body[data-lang="gu"] .textSwiper .slide-text-container p {
+        font-family: "NotoSansGujaratiRegular" !important;
       }
 
       /* ================= NAVIGATION BUTTONS ================= */
@@ -433,8 +441,9 @@
       <div class="gujrati">G</div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./assets/js/swiper-bundle.min.js"></script>
     <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/djp.js"></script>
 
     <script>
       const prevBtn = document.querySelector(".swiper-prev-btn");
@@ -594,7 +603,7 @@
           if (!link) return;
 
           if (page.classList.contains("is-open")) {
-            window.location.href = link.getAttribute("href");
+            navigateWithSound(link.getAttribute("href"), topicClickSound, 900);
             return;
           }
 

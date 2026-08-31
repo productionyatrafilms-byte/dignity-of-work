@@ -7,7 +7,7 @@
 
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      href="./assets/css/swiper-bundle.min.css"
     />
 
     <link rel="stylesheet" href="./assets/css/style.css" />
@@ -215,6 +215,14 @@
         font-family: "MomoTrustDisplay";
       }
 
+      body[data-lang="hi"] .textSwiper .slide-text-container p {
+        font-family: "ITFDevanagari" !important;
+      }
+
+      body[data-lang="gu"] .textSwiper .slide-text-container p {
+        font-family: "NotoSansGujaratiRegular" !important;
+      }
+
       /* ================= NAVIGATION BUTTONS ================= */
 
       .swiper-nav-btn {
@@ -281,6 +289,11 @@
   <body>
     <a class="home-btn" href="index.html">
       <img src="./assets/images/home-btn.png" alt="" />
+    </a>
+
+    <a href="example.html" class="example-link hidden">
+      <img src="./assets/images/example.png" alt="" />
+      <span data-lang-key="title-example"></span>
     </a>
 
     <div class="page-title">
@@ -562,8 +575,9 @@
       <div class="gujrati">G</div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./assets/js/swiper-bundle.min.js"></script>
     <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/djp.js"></script>
 
     <script>
       const prevBtn = document.querySelector(".swiper-prev-btn");
@@ -590,6 +604,8 @@
       videoSwiper.controller.control = textSwiper;
       textSwiper.controller.control = videoSwiper;
 
+      const exampleLink = document.querySelector(".example-link");
+
       function updateButtons() {
         if (videoSwiper.isBeginning) {
           prevBtn.classList.add("is-hidden");
@@ -597,8 +613,13 @@
           prevBtn.classList.remove("is-hidden");
         }
 
-        /* Keep next button visible even on last slide */
-        nextBtn.classList.remove("is-hidden");
+        if (videoSwiper.isEnd) {
+          nextBtn.classList.add("is-hidden");
+          if (exampleLink) exampleLink.classList.remove("hidden");
+        } else {
+          nextBtn.classList.remove("is-hidden");
+          if (exampleLink) exampleLink.classList.add("hidden");
+        }
       }
 
       function playActiveVideo() {
@@ -649,7 +670,7 @@
 
       nextBtn.addEventListener("click", () => {
         if (videoSwiper.isEnd) {
-          window.location.href = "pranam.html";
+          window.location.href = "example.html";
           return;
         }
 
@@ -725,7 +746,7 @@
           if (!link) return;
 
           if (page.classList.contains("is-open")) {
-            window.location.href = link.getAttribute("href");
+            navigateWithSound(link.getAttribute("href"), topicClickSound, 900);
             return;
           }
 
