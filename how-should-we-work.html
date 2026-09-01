@@ -205,7 +205,7 @@
         margin: 0;
         position: relative;
         z-index: 4;
-        color: #ffffff;
+        color: #545454;
         font-size: 2vw;
         line-height: 1.1;
         font-weight: 700;
@@ -604,6 +604,14 @@
       videoSwiper.controller.control = textSwiper;
       textSwiper.controller.control = videoSwiper;
 
+      document.addEventListener("languageApplied", updateTextWidth);
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          requestAnimationFrame(() => requestAnimationFrame(updateTextWidth));
+        });
+      }
+
       const exampleLink = document.querySelector(".example-link");
 
       function updateButtons() {
@@ -645,7 +653,10 @@
         const text = activeSlide.querySelector("p");
         if (!text) return;
 
+        const prevWhiteSpace = text.style.whiteSpace;
+        text.style.whiteSpace = "nowrap";
         const textWidth = text.scrollWidth;
+        text.style.whiteSpace = prevWhiteSpace;
         const minWidth = window.innerWidth * 0.42;
         const maxWidth = window.innerWidth * 0.6;
         const extraPadding = window.innerWidth * 0.07;

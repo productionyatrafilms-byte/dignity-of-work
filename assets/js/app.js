@@ -38,6 +38,8 @@ function applyLanguage(lang) {
   });
 
   localStorage.setItem(STORAGE_KEY, lang);
+
+  document.dispatchEvent(new CustomEvent("languageApplied", { detail: { lang } }));
 }
 
 // detect refresh

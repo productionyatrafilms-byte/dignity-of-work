@@ -97,7 +97,7 @@ body[data-lang="gu"] .page-title span {
 }
 
 body[data-lang="gu"] .pages .page div {
-  font-size: 0.85vw !important;
+  font-size: 1vw !important;
   line-height: 1.15;
 }
 
@@ -236,7 +236,7 @@ body[data-lang="gu"] .pages .page div {
   padding: 0.3vw;
   width: 85%;
   color: #5d5d5d;
-  text-align: end;
+  text-align: start;
   font-size: 1.1vw;
   font-weight: bold;
 }
