@@ -605,6 +605,28 @@
       videoSwiper.controller.control = textSwiper;
       textSwiper.controller.control = videoSwiper;
 
+      // Coming back from example.html lands on the last slide (where the
+      // Example button is), not the first.
+      const RETURN_FLAG = "how-should-we-work:from-example";
+
+      let restoreLastSlide = false;
+
+      try {
+        const cameFromExample =
+          !document.referrer || document.referrer.includes("example.html");
+
+        restoreLastSlide =
+          !!sessionStorage.getItem(RETURN_FLAG) && cameFromExample;
+
+        sessionStorage.removeItem(RETURN_FLAG);
+      } catch (e) {}
+
+      function rememberLeavingForExample() {
+        try {
+          sessionStorage.setItem(RETURN_FLAG, "1");
+        } catch (e) {}
+      }
+
       document.addEventListener("languageApplied", updateTextWidth);
 
       if (document.fonts && document.fonts.ready) {
@@ -680,8 +702,13 @@
           });
       }
 
+      if (exampleLink) {
+        exampleLink.addEventListener("click", rememberLeavingForExample);
+      }
+
       nextBtn.addEventListener("click", () => {
         if (videoSwiper.isEnd) {
+          rememberLeavingForExample();
           window.location.href = "example.html";
           return;
         }
@@ -716,6 +743,16 @@
       });
 
       window.addEventListener("load", () => {
+        // Has to wait for load: jumping earlier gets reset by Swiper's own
+        // layout pass, leaving the video on slide 1 and only the text moved.
+        if (restoreLastSlide) {
+          const last = videoSwiper.slides.length - 1;
+          videoSwiper.update();
+          videoSwiper.slideTo(last, 0);
+          textSwiper.update();
+          textSwiper.slideTo(last, 0);
+        }
+
         updateButtons();
         playActiveVideo();
 
