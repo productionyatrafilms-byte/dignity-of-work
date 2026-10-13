@@ -327,6 +327,7 @@
             <div class="swiper-slide">
               <video
                 src="./assets/videos/1-1.mp4"
+                preload="auto"
                 autoplay
                 muted
                 loop
@@ -337,7 +338,7 @@
             <div class="swiper-slide">
               <video
                 src="./assets/videos/1-2.mp4"
-                autoplay
+                preload="none"
                 muted
                 loop
                 playsinline
@@ -347,7 +348,7 @@
             <div class="swiper-slide">
               <video
                 src="./assets/videos/1-3.mp4"
-                autoplay
+                preload="none"
                 muted
                 loop
                 playsinline
@@ -415,7 +416,6 @@
     <script src="./assets/js/swiper-bundle.min.js"></script>
     <script src="./assets/js/data.js"></script>
     <script src="./assets/js/app.js"></script>
-    <script src="./assets/js/djp.js"></script>
 
     <script>
       const prevBtn = document.querySelector(".swiper-prev-btn");
@@ -469,10 +469,13 @@
           .querySelectorAll(".videoSwiper video")
           .forEach((video, index) => {
             if (index === videoSwiper.activeIndex) {
+              video.preload = "auto";
               video.play().catch(() => {});
             } else {
               video.pause();
               video.currentTime = 0;
+              // inactive slides must not download until their slide is reached
+              video.preload = "none";
             }
           });
       }
